@@ -14,6 +14,59 @@ console.log("random : " + randomComputerChoice);
 let humanChoice = prompt('Enter your choice between rock paper or scissor!!!');
 
 const getHumanChoice = function (choice) {
+    'use strict';
+
+    let computerScore = 0;
+    let playerScore = 0;
+
+    const choices = ['Rock', 'Paper', 'Scissor'];
+
+    const getComputerChoice = function (arr) {
+        const randomChoice = Math.trunc(Math.random() * 3);
+        return arr[randomChoice];
+    };
+
+    const getPlayerChoice = function () {
+        return prompt('Choose between rock, paper & scissor to play against the computer (first to 5 points win)');
+    };
+
+    const playRound = function (playerSelection, computerSelection) {
+        if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
+            console.log(`It's a tie! Try again`);
+        } else if (
+            (playerSelection === 'rock' && computerSelection === 'scissor') ||
+            (playerSelection === 'paper' && computerSelection === 'rock') ||
+            (playerSelection === 'scissor' && computerSelection === 'paper')
+        ) {
+            playerScore++;
+            console.log(`You win! by ${playerScore} points`);
+        } else {
+            computerScore++;
+            console.log(`Computer wins! by ${computerScore} points`);
+        }
+    };
+
+    const winner = function () {
+        if (playerScore === 5 && playerScore > computerScore) {
+            console.log('Congrats, you have won!');
+        } else {
+            console.log('You have lost!');
+        }
+    };
+
+    const game = function () {
+        for (let i = 0; i <= 5; i++) {
+            const playerChoice = getPlayerChoice();
+            const computerChoice = getComputerChoice(choices);
+            console.log(`PLAYER'S CHOICE: ${playerChoice}`);
+            console.log(`COMPUTER'S CHOICE: ${computerChoice}`);
+            playRound(playerChoice, computerChoice);
+        }
+        winner();
+    };
+
+    game();
+
     if (choice.toLowerCase() === 'rock' || choice.toLowerCase() === 'paper' || choice.toLowerCase() === 'scissor') {
         return choice;
     } else {
