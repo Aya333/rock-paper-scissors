@@ -1,114 +1,53 @@
 'use strict';
-const computerChoice = ['rock', 'paper', 'scissor'];
+
+const choices = ['rock', 'paper', 'scissor'];
 let humanScore = 0;
 let computerScore = 0;
 
-const getComputerChoice = function (arr) {
-    const randomChoice = Math.trunc(Math.random() * 3);
-    return arr[randomChoice];
-}
+const getComputerChoice = () => {
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    return choices[randomIndex];
+};
 
-const randomComputerChoice = getComputerChoice(computerChoice);
-console.log("random : " + randomComputerChoice);
-
-let humanChoice = prompt('Enter your choice between rock paper or scissor!!!');
-
-const getHumanChoice = function (choice) {
-    'use strict';
-
-    let computerScore = 0;
-    let playerScore = 0;
-
-    const choices = ['Rock', 'Paper', 'Scissor'];
-
-    const getComputerChoice = function (arr) {
-        const randomChoice = Math.trunc(Math.random() * 3);
-        return arr[randomChoice];
-    };
-
-    const getPlayerChoice = function () {
-        return prompt('Choose between rock, paper & scissor to play against the computer (first to 5 points win)');
-    };
-
-    const playRound = function (playerSelection, computerSelection) {
-        if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
-            console.log(`It's a tie! Try again`);
-        } else if (
-            (playerSelection === 'rock' && computerSelection === 'scissor') ||
-            (playerSelection === 'paper' && computerSelection === 'rock') ||
-            (playerSelection === 'scissor' && computerSelection === 'paper')
-        ) {
-            playerScore++;
-            console.log(`You win! by ${playerScore} points`);
-        } else {
-            computerScore++;
-            console.log(`Computer wins! by ${computerScore} points`);
-        }
-    };
-
-    const winner = function () {
-        if (playerScore === 5 && playerScore > computerScore) {
-            console.log('Congrats, you have won!');
-        } else {
-            console.log('You have lost!');
-        }
-    };
-
-    const game = function () {
-        for (let i = 0; i <= 5; i++) {
-            const playerChoice = getPlayerChoice();
-            const computerChoice = getComputerChoice(choices);
-            console.log(`PLAYER'S CHOICE: ${playerChoice}`);
-            console.log(`COMPUTER'S CHOICE: ${computerChoice}`);
-            playRound(playerChoice, computerChoice);
-        }
-        winner();
-    };
-
-    game();
-
-    if (choice.toLowerCase() === 'rock' || choice.toLowerCase() === 'paper' || choice.toLowerCase() === 'scissor') {
-        return choice;
-    } else {
-        humanChoice = prompt('Enter your choice between rock paper or scissor!!!');
+const getHumanChoice = () => {
+    let choice = prompt('Enter your choice between rock, paper, or scissor:').toLowerCase();
+    while (!choices.includes(choice)) {
+        choice = prompt('Invalid choice. Please enter rock, paper, or scissor:').toLowerCase();
     }
-}
+    return choice;
+};
 
-const playerChoice = getHumanChoice(humanChoice);
-console.log("my choice : " + playerChoice);
-const playRound = function (human, computer) {
+const playRound = (human, computer) => {
     if (human === computer) {
-        console.log('Its a tie try again!!!');
-        humanChoice = prompt('Enter your choice between rock paper or scissor!!!');
-    } else if ((human === 'rock' && computer === 'scissor') || (human === 'paper' && computer === 'rock') || (human === 'scissor' && computer === 'paper')) {
+        console.log(`It's a tie! You both chose ${human}. Try again.`);
+    } else if (
+        (human === 'rock' && computer === 'scissor') ||
+        (human === 'paper' && computer === 'rock') ||
+        (human === 'scissor' && computer === 'paper')
+    ) {
         humanScore++;
-        console.log(`You win!! ${human} beats ${computer}`);
-        humanChoice = prompt('Enter your choice between rock paper or scissor!!!');
-
-    } else if ((human === 'scissor' && computer === 'rock') || (human === 'rock' && computer === 'paper') || (human === 'paper' && computer === 'scissor')) {
-        computerScore++;
-        console.log(`You loose!! ${computer} beats ${human}`);
-        humanChoice = prompt('Enter your choice between rock paper or scissor!!!');
-
-    }
-}
-
-
-const winner = function (humanScore, computerScore) {
-    if (computerScore > humanScore) {
-        console.log('you lost refresh to play again');
+        console.log(`You win! ${human} beats ${computer}.`);
     } else {
-        console.log('Yayy you have beaten computer');
+        computerScore++;
+        console.log(`You lose! ${computer} beats ${human}.`);
     }
-}
+};
 
-const playGame = function () {
-    for (let index = 1; index <= 5; index++) {
-        const randomComputerChoice = getComputerChoice(computerChoice);
-        const playerChoice = getHumanChoice(humanChoice);
-        playRound(playerChoice, randomComputerChoice);
+const displayWinner = () => {
+    if (computerScore > humanScore) {
+        console.log('You lost! Refresh the page to play again.');
+    } else {
+        console.log('Yay! You have beaten the computer.');
     }
-    winner(humanScore, computerScore);
-}
+};
+
+const playGame = () => {
+    for (let i = 0; i < 5; i++) {
+        const computerChoice = getComputerChoice();
+        const humanChoice = getHumanChoice();
+        playRound(humanChoice, computerChoice);
+    }
+    displayWinner();
+};
 
 playGame();
